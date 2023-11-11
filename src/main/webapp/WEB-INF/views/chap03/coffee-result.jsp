@@ -7,7 +7,11 @@
     <title>Web study</title>
 </head>
 <body>
-    <h1>안녕하세요~~~~~</h1>
-
+    <h1>주문 내역입니다.</h1>
+    <ul>
+        <li># 주문하신 메뉴 : ${m}</li>
+        <li># 지불하실 가격 : ${p}</li>
+    </ul>
+    <a href="/coffee/order">재 주문하기</a>
 </body>
 </html>

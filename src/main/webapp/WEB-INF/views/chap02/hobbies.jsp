@@ -7,7 +7,12 @@
     <title>Web study</title>
 </head>
 <body>
-    <h1>안녕하세요~~~~~</h1>
-
+    <h1>[ ${username} ]님 취미 목록</h1>
+    <ol>
+<%--       for (변수 : 리스트) --%>
+        <c:forEach var="item" items="${hobbies}">
+            <li>${item}</li>
+        </c:forEach>
+    </ol>
 </body>
 </html>

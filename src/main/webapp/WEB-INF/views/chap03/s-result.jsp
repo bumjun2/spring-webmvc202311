@@ -7,7 +7,7 @@
     <title>Web study</title>
 </head>
 <body>
-    <h1>안녕하세요~~~~~</h1>
-
+    <h1>${a}</h1>
+    <a href="/hw/s-login-form"> 돌아가기 </a>
 </body>
 </html>

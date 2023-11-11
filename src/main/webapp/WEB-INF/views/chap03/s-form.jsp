@@ -7,7 +7,12 @@
     <title>Web study</title>
 </head>
 <body>
-    <h1>안녕하세요~~~~~</h1>
+    <h1>로그인 하기</h1>
+    <form action="/hw/s-login-check" method="Post">
+        <input type="text" name="id">
+        <input type="text" name="password">
+        <button>로그인하기</button>
+    </form>
 
 </body>
 </html>
