@@ -20,9 +20,11 @@ package com.spring.mvc.chap04.controller;
  */
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
+import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreRepository;
 import com.spring.mvc.chap04.repository.ScoreRepositoryImpl;
+import com.spring.mvc.chap04.service.ScoreService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller()
 @RequestMapping("/score")
@@ -40,7 +44,7 @@ import java.util.List;
 public class ScoreController {
 
     // 저장속에 의존하여 데이터 처리를 위임한다.
-    private final ScoreRepository repository;
+    private final ScoreService service;
 
     // @Autowired -> 스프링에 등록된 빈을 자동주입
     // 생성자 주입을 사용하고 생성자가 단 하나 -> autowired생략가능
@@ -52,25 +56,32 @@ public class ScoreController {
     // - jsp파일로 입력폼 화면을 띄워줘야 함 (view 포워딩)
     // - 저장된 성적정보 리스트를 jsp에 보내줘야 함 (modal에 데이터 전송)
     // - 저장된 성적정보 리스트를 어떻게 가져오느냐
+
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model, @RequestParam(defaultValue = "num") String sort){
         System.out.println("/score/list GET");
-        List<Score> scoreList = repository.findAll();
-        System.out.println(scoreList);
-        model.addAttribute("sList", scoreList);
+
+        List<ScoreResponseDTO> dtoList = service.getList(sort);
+//        db에서 조회한 모든 데이터
+//        List<Score> scoreList = repository.findAll(sort);
+//        //클라이언트가 필요한 일부데이터
+//        List<ScoreResponseDTO> dtoList = new ArrayList<>();
+//        for (Score score : scoreList) {
+//            dtoList.add(new ScoreResponseDTO(score));
+//        }
+
+        model.addAttribute("sList", dtoList);
         return "chap04/Score-list";
     }
 
     // 2. 성적정보를 데이터베이스에 저장하는 요청
-
     @PostMapping("/register")
     public String register(ScoreRequestDTO score){
         System.out.println("/score/register POST!!");
         System.out.println(score);
 
         // DTO를 엔터티로 변환 -> 데이터 생성
-        Score savedScore = new Score(score);
-        repository.save(savedScore);
+        service.insertScore(score);
 
         /*
             #forwoard vs redirect
@@ -93,14 +104,43 @@ public class ScoreController {
         System.out.printf("/score/remove %s\n", request.getMethod());
         System.out.println(stuNum);
 
-        repository.delete(stuNum);
-
+        service.deleteScore(stuNum);
         return "redirect:/score/list";
     }
     // 4. 성적 상세 조회 요청
     @GetMapping("/detail")
-    public String detail(){
+    public String detail(int stuNum, Model model){
         System.out.println("/score/detail GET");
-        return "";
+
+        retrieve(stuNum, model);
+
+        return "chap04/score-detail";
+    }
+
+    private void retrieve(int stuNum, Model model) {
+        Score score = service.retrive(stuNum);
+        model.addAttribute("s", score);
+    }
+
+    //5. 수정 입력 폼을 열어주는 요청
+    // /score/modify : GET
+    @GetMapping("/modify")
+    public String modify(int stuNum, Model model){
+        System.out.println("/socre/modify GET !!");
+
+        retrieve(stuNum, model);
+
+        return "chap04/score-modify";
+    }
+
+    //6. 수정 처리 요청
+    // /score/modify : POST
+    @PostMapping ("/modify")
+    public String modify(int stuNum, ScoreRequestDTO dto){
+        System.out.println("/socre/modify POST !!");
+
+        service.updateScore(stuNum, dto);
+
+        return "redirect:/score/detail?stuNum=" + stuNum;
     }
 }
