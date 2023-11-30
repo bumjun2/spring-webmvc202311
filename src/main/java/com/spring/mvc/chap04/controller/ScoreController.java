@@ -69,7 +69,6 @@ public class ScoreController {
 //        for (Score score : scoreList) {
 //            dtoList.add(new ScoreResponseDTO(score));
 //        }
-
         model.addAttribute("sList", dtoList);
         return "chap04/Score-list";
     }
