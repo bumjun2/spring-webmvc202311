@@ -13,11 +13,14 @@ import java.util.stream.Collectors;
 @Repository
 public class BoardRepositoryImpl implements BoardRepository{
     private static final Map<Integer, Board> boardMap;
+
+    //글 번호를 자동으로 증가시키기 위한 공유 필드
+    private static int sequence;
     static {
         boardMap = new HashMap<>();
-        Board b1 = new Board(1, "이마트 영업시", "10시에 마감하는걸로 바뀌었나요? 마감 털이 몇시에 가야되죠 ? 하....", 0, LocalDateTime.now());
-        Board b2 = new Board(2, "관종의 조건", "이 세상은 나를 중심으로 돌아간다 라는 마음으로 행동해라...", 0, LocalDateTime.now());
-        Board b3 = new Board(3, "돈까스 레시피", "그냥 이마트에서 사서 에어프라이 돌려라~", 0, LocalDateTime.now());
+        Board b1 = new Board(++sequence, "이마트 영업시", "10시에 마감하는걸로 바뀌었나요? 마감 털이 몇시에 가야되죠 ? 하....", 0, LocalDateTime.now());
+        Board b2 = new Board(++sequence, "관종의 조건", "이 세상은 나를 중심으로 돌아간다 라는 마음으로 행동해라...", 0, LocalDateTime.now());
+        Board b3 = new Board(++sequence, "돈까스 레시피", "그냥 이마트에서 사서 에어프라이 돌려라~", 0, LocalDateTime.now());
 
         boardMap.put(b1.getBoardNo(), b1);
         boardMap.put(b2.getBoardNo(), b2);
@@ -33,12 +36,13 @@ public class BoardRepositoryImpl implements BoardRepository{
 //        }
         return new ArrayList<>(boardMap.values())
                 .stream()
-                .sorted(Comparator.comparing(s -> s.getBoardNo()))
+                .sorted(Comparator.comparing(Board::getBoardNo).reversed())
                 .collect(Collectors.toList());
     }
 
     @Override
     public boolean save(Board board) {
+        board.setBoardNo(++sequence);
         boardMap.put(board.getBoardNo(), board);
         return true;
     }

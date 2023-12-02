@@ -43,7 +43,7 @@ public class BoardController {
         List<Board> boardList = repository.findAll();
 
         model.addAttribute("bList", boardList);
-        return "chap05/list";
+        return "redirect:/board/list";
     }
     // 4. 글 삭제 요청 (/board/delete : GET)
     @GetMapping("/delete")

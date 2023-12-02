@@ -9,5 +9,5 @@ public interface BoardRepository {
     List<Board> findAll();
     boolean save(Board board);
     boolean delete(int boardNo);
-    Board findOne(int stuNum);
+    Board findOne(int bno);
 }
