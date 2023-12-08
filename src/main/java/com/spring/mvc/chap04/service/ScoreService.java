@@ -5,7 +5,7 @@ import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +18,16 @@ import java.util.stream.Collectors;
     컨트롤러 -> 사비스 -> 레파지토리
  */
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Service
 public class ScoreService {
 
     private final ScoreRepository repository;
+
+    public ScoreService(@Qualifier("dbRepo") ScoreRepository repository) {
+        this.repository = repository;
+    }
+
     //목록 조회 중간처리
     /*
         컨트롤러는 데이터베이스에서 성적정보 리스트를 조회해 오기를 원하고 있다.

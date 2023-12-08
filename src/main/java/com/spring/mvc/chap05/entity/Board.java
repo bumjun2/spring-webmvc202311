@@ -2,6 +2,8 @@ package com.spring.mvc.chap05.entity;
 
 import lombok.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Setter @Getter
@@ -24,4 +26,11 @@ public class Board {
     }
 
 
+    public Board(ResultSet rs) throws SQLException {
+        this.boardNo = rs.getInt("board_no");
+        this.title = rs.getString("title");
+        this.shortContent = rs.getString("content");
+        this.viewCount = rs.getInt("view_count");
+        this.date = rs.getTimestamp("reg_date_time").toLocalDateTime();
+    }
 }

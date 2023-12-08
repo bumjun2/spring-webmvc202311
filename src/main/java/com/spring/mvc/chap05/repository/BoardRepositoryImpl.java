@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("memo")
 public class BoardRepositoryImpl implements BoardRepository{
     private static final Map<Integer, Board> boardMap;
 

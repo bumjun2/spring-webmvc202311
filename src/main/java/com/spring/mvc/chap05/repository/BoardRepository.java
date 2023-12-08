@@ -10,4 +10,7 @@ public interface BoardRepository {
     boolean save(Board board);
     boolean delete(int boardNo);
     Board findOne(int bno);
+
+//    한 클래스에서 사용을 원할때 default 접근 제한자 사용
+//    default void upViewCount() {};
 }

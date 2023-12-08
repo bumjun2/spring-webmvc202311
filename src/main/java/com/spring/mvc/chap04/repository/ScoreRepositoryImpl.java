@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("memory")
 public class ScoreRepositoryImpl implements ScoreRepository{
 
     private static int seq;

@@ -18,7 +18,7 @@ public class JdbcRepository {
     // jdbc 드라이버 로딩
     public JdbcRepository(){
         try {
-            Class.forName("org.mariadb.jdbc.Drivar");
+            Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

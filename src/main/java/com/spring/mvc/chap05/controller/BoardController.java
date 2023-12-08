@@ -2,7 +2,10 @@ package com.spring.mvc.chap05.controller;
 
 import com.spring.mvc.chap05.dto.BoardRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
+import com.spring.mvc.chap05.repository.BoardJdbcRepository;
+import com.spring.mvc.chap05.repository.BoardRepository;
 import com.spring.mvc.chap05.repository.BoardRepositoryImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +20,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    BoardRepositoryImpl repository;
+    private final BoardRepository repository;
 
-    public BoardController(BoardRepositoryImpl repository) {
+    public BoardController(@Qualifier("db") BoardRepository repository) {
         this.repository = repository;
     }
 
