@@ -3,8 +3,10 @@ package com.spring.mvc.chap05.controller;
 import com.spring.mvc.chap05.dto.BoardRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardJdbcRepository;
+import com.spring.mvc.chap05.repository.BoardMapper;
 import com.spring.mvc.chap05.repository.BoardRepository;
 import com.spring.mvc.chap05.repository.BoardRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +21,9 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
-    private final BoardRepository repository;
-
-    public BoardController(@Qualifier("db") BoardRepository repository) {
-        this.repository = repository;
-    }
+    private final BoardMapper repository;
 
     // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
@@ -58,6 +57,7 @@ public class BoardController {
     // 5. 글 상세보기 요청 (/board/detail : GET)
     @GetMapping("/detail")
     public String detail(int bno, Model model){
+        repository.upViewCount(bno);
         Board b = repository.findOne(bno);
         BoardRequestDTO b2 = new BoardRequestDTO(b);
         model.addAttribute("b", b2);

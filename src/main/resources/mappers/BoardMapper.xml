@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mvc.chap05.repository.BoardMapper">
+    <resultMap id="boardMap" type="board">
+        <result column="content" property="shortContent" />
+        <result column="reg_date_time" property="date" />
+    </resultMap>
+    <select id="findAll" resultMap="boardMap">
+        SELECT * FROM tbl_board
+        ORDER BY reg_date_time DESC
+    </select>
+    <insert id="save">
+        INSERT INTO tbl_board
+            (content, title)
+        VALUES (#{shortContent}, #{title})
+    </insert>
+    <delete id="delete">
+        DELETE FROM tbl_board
+        WHERE board_no = #{boardNo}
+    </delete>
+    <select id="findOne" resultMap="boardMap">
+        SELECT * FROM tbl_board
+        WHERE board_no = #{bno}
+    </select>
+    <update id="upViewCount">
+        UPDATE tbl_board
+        SET view_count = view_count +1
+        WHERE board_no = #{bno}
+    </update>
+</mapper>
