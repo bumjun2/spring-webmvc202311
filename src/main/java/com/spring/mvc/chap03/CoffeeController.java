@@ -13,7 +13,7 @@ public class CoffeeController {
 
     /*
         @request - 커피 주문서 양식 페이지 열기 요청
-        @requset url - /coffee/order : GET
+        @request url - /coffee/order : GET
         @response - /chap03/coffee-fome.jsp
      */
     @GetMapping("/order")
@@ -26,7 +26,7 @@ public class CoffeeController {
         @respnse - /chap03/coffee-result.jsp
      */
 
-    @PostMapping("result")
+    @PostMapping("/result")
     public String result(String menu, @RequestParam(defaultValue = "3000") int price, Model model){
         // 1. 클라이언트가 보낸 커피 메뉴명과 가격을 읽어야 함.
         System.out.println("menu = " + menu);

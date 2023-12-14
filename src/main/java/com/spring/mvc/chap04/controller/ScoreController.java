@@ -62,6 +62,8 @@ public class ScoreController {
         System.out.println("/score/list GET");
 
         List<ScoreResponseDTO> dtoList = service.getList(sort);
+
+        System.out.println(sort);
 //        db에서 조회한 모든 데이터
 //        List<Score> scoreList = repository.findAll(sort);
 //        //클라이언트가 필요한 일부데이터

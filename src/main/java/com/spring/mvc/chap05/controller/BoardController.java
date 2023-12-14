@@ -1,5 +1,7 @@
 package com.spring.mvc.chap05.controller;
 
+import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.common.PageMaker;
 import com.spring.mvc.chap05.dto.BoardRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardJdbcRepository;
@@ -27,9 +29,15 @@ public class BoardController {
 
     // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
-    public String list(Model model){
-        List<Board> boardList = repository.findAll();
+    public String list(Page page, Model model){
+        List<Board> boardList = repository.findAll(page);
+
+        // 페이지 계산 알고리즘 적용
+        PageMaker maker = new PageMaker(page, repository.count());
         model.addAttribute("bList", boardList);
+        model.addAttribute("maker", maker);
+
+        System.out.println(maker.getEnd());
         return "chap05/list";
     }
     // 2. 글쓰기 화면요청 (/board/write : GET)
@@ -39,11 +47,10 @@ public class BoardController {
     }
     // 3. 글쓰기 등록요청 (/board/write : POST)
     @PostMapping("/write")
-    public String reWrite(String title, String content, Model model){
+    public String reWrite(String title, String content, Page page, Model model){
         Board b = new Board(4, title, content);
         repository.save(b);
-        List<Board> boardList = repository.findAll();
-
+        List<Board> boardList = repository.findAll(page);
         model.addAttribute("bList", boardList);
         return "redirect:/board/list";
     }

@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.repository;
 
+import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.entity.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,29 +19,30 @@ class BoardMapperTest {
     BoardMapper mapper;
 
     // 게시물을 300개 저장
-//    @Test
-//    @DisplayName("게시물 300개를 저장해야 한다")
-//    void bulkInsertTest() {
-//        //given
-//        for (int i = 1; i < 300 ; i++) {
-//            Board  b = Board.builder()
-//                    .shortContent("테스트용 내용" + i)
-//                    .title("테스트용 제목" + i)
-//                    .build();
-//            mapper.save(b);
-//        }
-//        //when
-//
-//        //then
-//    }
+    @Test
+    @Rollback
+    @DisplayName("게시물 300개를 저장해야 한다")
+    void bulkInsertTest() {
+        //given
+        for (int i = 1; i < 300 ; i++) {
+            Board  b = Board.builder()
+                    .shortContent("테스트용 내용" + i)
+                    .title("테스트용 제목" + i)
+                    .build();
+            mapper.save(b);
+        }
+        //when
+
+        //then
+    }
 
     @Test
     @DisplayName("게시물을 전체조회하면 300개의 게시물이 조회해야 한다.")
-    void findAllTest() {
+    void findAllTest(Page page) {
         //given
 
         //when
-        List<Board> boardList = mapper.findAll();
+        List<Board> boardList = mapper.findAll(page);
         //then
         assertTrue(boardList.size() == 299);
     }

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/hw")
@@ -27,22 +28,24 @@ public class LoginController {
         - jsp에게 전달할 데이터: 로그인 성공여부, 아이디 없는경우, 비번 틀린경우
 
      */
-    @PostMapping("s-login-check")
-    public String on(String id, String password, Model model){
-        System.out.println("id = " + id);
-        System.out.println("password = " + password);
-        String a = "";
-        if(id.equals("grape111")){
-            a = "아이디만 맞음";
-            if(password.equals("ggg999")){
-                a = "로그인 성공";
-            }
-        }else{
-            a = "로그인 실패";
+    @PostMapping("/s-login-check")
+    public String loginChack(@RequestParam("id") String inputId,
+                             @RequestParam("password") String inputPassword, Model model){
+        System.out.println("id = " + inputId);
+        System.out.println("password = " + inputPassword);
+        // 전달할 메세지
+        String message = "";
+        if(inputId.equals("grape1111") && inputPassword.equals("ggg9999")){
+            message = "로그인 성공";
+        }else {
+            message = "아이디랑 로그인을 똑바로 써라!!!!";
         }
-        model.addAttribute("a", a);
 
+        System.out.println(message);
+
+        model.addAttribute("a", message);
         return "chap03/s-result";
     }
+
 
 }

@@ -33,22 +33,22 @@ class ScoreRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("저장소에서 findOne을 호출하여 학번이 2인 학생을 조회하면 그 학생의 국어 점수가 33점이고 이름은 춘식이어야 한다")
-    void findOne(){
+    @DisplayName("findOne으로 학번이 2번인 사람을 조회하면 이름이 쿠루미가 나올것이다")
+    void findOneTest() {
         //given
-        int stuNum = 2;
+        int stuNum = 3;
         //when
-        Score sc = repository.findOne(stuNum);
+        Score score = repository.findOne(stuNum);
         //then
-        assertEquals(33, sc.getKor());
-        assertEquals("춘식이", sc.getName());
+        assertEquals("쿠로미", score.getName());
     }
+
 
     @Test
     @DisplayName("학번이 -99번인 학생을 조회하면 null이 나와야한다")
     void FindOneFailTest(){
         int stuNum = -99;
-        Score score = repository.findOne((stuNum));
+        Score score = repository.findOne(stuNum);
         assertNull(score);
     }
 
@@ -63,10 +63,9 @@ class ScoreRepositoryImplTest {
         List<Score> scoreList = repository.findAll();
         Score score = repository.findOne(stuNum);
 
-        if (delete) {
-            assertEquals(2, scoreList.size());
-            assertNull(score);
-        }
+        assertTrue(delete);
+        assertEquals(2, scoreList.size());
+        assertNull(score);
     }
     @Test
     @DisplayName("새로운 성적정보를 save를 통해 추가하면" +

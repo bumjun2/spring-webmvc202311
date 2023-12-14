@@ -9,7 +9,8 @@
     </resultMap>
     <select id="findAll" resultMap="boardMap">
         SELECT * FROM tbl_board
-        ORDER BY reg_date_time DESC
+        ORDER BY board_no DESC
+        LIMIT #{pageStart}, #{amount}
     </select>
     <insert id="save">
         INSERT INTO tbl_board
@@ -29,4 +30,8 @@
         SET view_count = view_count +1
         WHERE board_no = #{bno}
     </update>
+    <select id="count" resultType="int">
+        SELECT COUNT (*)
+        FROM tbl_board
+    </select>
 </mapper>
