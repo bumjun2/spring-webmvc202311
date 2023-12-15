@@ -99,19 +99,19 @@ public class ScoreController {
         return "redirect:/score/list";
     }
     // 3. 성적 삭제 요청
-    @RequestMapping(value="/remove/{stuNum}", method = {RequestMethod.GET, RequestMethod.POST}) // GET, POST둘다 받는 방법
-    public String remove(HttpServletRequest request,
-                         @PathVariable int stuNum){
-        System.out.printf("/score/remove %s\n", request.getMethod());
-        System.out.println(stuNum);
 
+    @GetMapping("/remove/{stuNum}")
+    public String remove(@PathVariable int stuNum){
         service.deleteScore(stuNum);
+        System.out.println(stuNum);
         return "redirect:/score/list";
     }
     // 4. 성적 상세 조회 요청
     @GetMapping("/detail")
     public String detail(int stuNum, Model model){
         System.out.println("/score/detail GET");
+
+        System.out.println("stuNum = " + stuNum);
 
         retrieve(stuNum, model);
 
@@ -137,11 +137,11 @@ public class ScoreController {
     //6. 수정 처리 요청
     // /score/modify : POST
     @PostMapping ("/modify")
-    public String modify(int stuNum, ScoreRequestDTO dto){
+    public String modify(int stuNum, int kor, int eng, int math){
         System.out.println("/socre/modify POST !!");
 
-        service.updateScore(stuNum, dto);
+        service.updateScore(kor, eng, math, stuNum);
 
-        return "redirect:/score/detail?stuNum=" + stuNum;
+        return "redirect:/score/detail?stuNum="+stuNum;
     }
 }

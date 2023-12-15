@@ -71,10 +71,11 @@
         <!-- 페이지 버튼 영역 -->
         <nav aria-label="Page navigation example">
             <ul class="pagination pagination-lg pagination-custom">
-
-                <li class="page-item">
-                    <a class="page-link" href="/board/list?pageNo=1"><< </a>
-                </li>
+                <c:if test="${page.pageNo != 1}">
+                    <li class="page-item">
+                        <a class="page-link" href="/board/list?pageNo=1"><< </a>
+                    </li>
+                </c:if>
 
                 <c:if test="${maker.prev}">
                     <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a>

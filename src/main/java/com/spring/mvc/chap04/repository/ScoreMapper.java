@@ -1,5 +1,6 @@
 package com.spring.mvc.chap04.repository;
 
+import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.entity.Score;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,6 @@ public interface ScoreMapper {
     boolean delete(int stuNum);
     //성적 정보 개별 조회
     Score findOne(int stuNum);
+    // 성적 정보 업데이트
+    void updateScore(int kor, int eng, int math, int stuNum);
 }

@@ -63,8 +63,10 @@ public class ScoreService {
     }
 
     //수정 완료 중간처리
-    public void updateScore(int stuNum, ScoreRequestDTO dto){
+    public void updateScore(int kor, int eng, int math, int stuNum){
+        repository.updateScore(kor, eng, math, stuNum);
         Score score = repository.findOne(stuNum);
-        score.changeScore(dto);
+        score.changeScore(kor, eng, math);
+        System.out.println(score.getTotal());
     }
 }

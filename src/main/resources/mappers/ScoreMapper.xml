@@ -6,6 +6,7 @@
 <!--    resultMap : db컬럼명과 자바클래스 필드명이 완전히 다를 때 사용-->
     <resultMap id="scoreMap" type="com.spring.mvc.chap04.entity.Score">
         <result column="stu_name" property="name"/>
+        <result column="stu_num" property="stuNum" />
     </resultMap>
     <select id="findAll" resultMap="scoreMap">
         SELECT * FROM tbl_score
@@ -21,4 +22,11 @@
     <select id="findOne" resultMap="scoreMap">
         SELECT * FROM tbl_score WHERE stu_num=#{stuNum}
     </select>
+    <update id="updateScore">
+        UPDATE tbl_score
+        SET kor = #{kor}, eng = #{eng}, math = #{math},
+            total = #{kor} + #{eng} + #{math},
+            average = total / 3
+        WHERE stu_num=#{stuNum}
+    </update>
 </mapper>

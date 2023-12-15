@@ -61,10 +61,10 @@ public class Score {
         this.eng = score.getEng();
     }
 
-    public void changeScore(ScoreRequestDTO dto) {
-        this.kor = dto.getKor();
-        this.eng = dto.getEng();
-        this.math = dto.getMath();
+    public void changeScore(int kor, int eng, int math) {
+        this.kor = kor;
+        this.eng = eng;
+        this.math = math;
         calculateTotalAndAverage();
         makeGrade();
     }
