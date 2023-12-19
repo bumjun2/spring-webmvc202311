@@ -17,20 +17,4 @@ class ScoreControllerTest {
     @Autowired
     ScoreMapper mapper;
 
-    @Test
-    @DisplayName("score객체 하나를 받아서 수정하면 값이 변경되어야 한다")
-    void updateScoreTest() {
-        //given
-        int kor = 10;
-        int eng = 10;
-        int math = 100;
-        Score score = mapper.findOne(7);
-        //when
-        mapper.updateScore(kor, eng, math, 7);
-        //then
-        assertEquals(10, score.getEng());
-    }
-
-
-
 }

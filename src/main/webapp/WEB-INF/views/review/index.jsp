@@ -15,8 +15,15 @@
     <a href="/main/join">회원가입</a>
     <br>
     <c:forEach var="m" items="${mList}">
-        -id = ${m.id}
-        -userName = ${m.userName} <br>
+        ${m.id}
+        ${m.shortUserName}
+        <a href="/main/delete?id=${m.id}">x</a>
+        <br>
     </c:forEach>
+    <form action="/main/search" method="post">
+        <input type="text" name="id">
+        <button type="submit">회원 찾기</button>
+    </form>
+
 </body>
 </html>

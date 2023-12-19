@@ -3,35 +3,62 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.mvc.chap05.repository.BoardMapper">
-    <resultMap id="boardMap" type="board">
-        <result column="content" property="shortContent" />
-        <result column="reg_date_time" property="date" />
-    </resultMap>
-    <select id="findAll" resultMap="boardMap">
+
+    <select id="findAll" resultType="board">
         SELECT * FROM tbl_board
+
+        <if test="type == 'title'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'content'">
+            WHERE content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'tc'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+             OR content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>
+
+    <select id="findOne" resultType="board">
+        SELECT * FROM tbl_board
+        WHERE board_no = #{boardNo}
+    </select>
+
     <insert id="save">
         INSERT INTO tbl_board
-            (content, title)
-        VALUES (#{shortContent}, #{title})
+         (title, content)
+        VALUES
+         (#{title}, #{content})
     </insert>
-    <delete id="delete">
+
+    <delete id="deleteByNo">
         DELETE FROM tbl_board
         WHERE board_no = #{boardNo}
     </delete>
-    <select id="findOne" resultMap="boardMap">
-        SELECT * FROM tbl_board
-        WHERE board_no = #{bno}
-    </select>
-    <update id="upViewCount">
+
+    <update id="updateViewCount">
         UPDATE tbl_board
-        SET view_count = view_count +1
-        WHERE board_no = #{bno}
+        SET view_count = view_count + 1
+        WHERE board_no = #{boardNo}
     </update>
+
     <select id="count" resultType="int">
-        SELECT COUNT (*)
+        SELECT COUNT(*)
         FROM tbl_board
+        <if test="type == 'title'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'content'">
+            WHERE content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'tc'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+            OR content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
     </select>
+
 </mapper>

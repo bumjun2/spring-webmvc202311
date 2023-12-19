@@ -141,7 +141,7 @@ public class ScoreController {
         System.out.println("/socre/modify POST !!");
 
         service.updateScore(kor, eng, math, stuNum);
-
         return "redirect:/score/detail?stuNum="+stuNum;
+
     }
 }

@@ -2,6 +2,7 @@ package com.spring.mvc.test.repository;
 
 
 import com.spring.mvc.test.entity.Member;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 //인 메모리 저장
-@Repository
+//@Repository
 public class MemberRepositoryImpl implements MemberRepository{
     private static final Map<String, Member> map;
 
@@ -52,7 +53,6 @@ public class MemberRepositoryImpl implements MemberRepository{
     }
 
     @Override
-    public boolean updateUserName(String id) {
-        return false;
+    public void updateUserName(Member member) {
     }
 }

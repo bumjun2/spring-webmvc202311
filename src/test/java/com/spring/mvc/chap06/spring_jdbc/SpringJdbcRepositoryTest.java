@@ -57,6 +57,59 @@ class SpringJdbcRepositoryTest {
         people.forEach(System.out::println);
     }
 
+    @Test
+    @DisplayName("사람 한명을 저장하면 데이터베이스에 추가 되어야 한다")
+    void save2Test() {
+        //given
+        Person p = new Person("123", "정범준", 123);
+        //when
+        repository.save2(p);
+        //then
+    }
+
+    @Test
+    @DisplayName("수정")
+    void modify2Test() {
+        //given
+        Person p = new Person("123", "박혁거세", 12);
+        //when
+        repository.modify2(p);
+        //then
+    }
+
+    @Test
+    @DisplayName("삭제")
+    void remove2Test() {
+        //given
+        String id = "333";
+        //when
+        repository.remove2(id);
+        //then
+    }
+
+    @Test
+    @DisplayName("전체 조회")
+    void findAllTest2() {
+        //given
+
+        //when
+        List<Person> all = repository.findAll2();
+        all.forEach(System.out::println);
+
+        //then
+    }
+
+    @Test
+    @DisplayName("한명 조회")
+    void findOneTest2() {
+        //given
+        String id = "123";
+        //when
+        Person one2 = repository.findOne2(id);
+        System.out.println("one2 = " + one2);
+        //then
+    }
+
 
 
 

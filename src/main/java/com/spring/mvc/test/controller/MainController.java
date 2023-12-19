@@ -1,15 +1,13 @@
 package com.spring.mvc.test.controller;
 
 import com.spring.mvc.test.dto.MemberRequestDTO;
+import com.spring.mvc.test.dto.MemberResponseDto;
 import com.spring.mvc.test.entity.Member;
 import com.spring.mvc.test.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,12 +19,18 @@ public class MainController {
 
     @GetMapping("")
     public String main(Model model) {
-        System.out.println("welcome to main");
-        List<Member> membersList = service.memberAll();
-
-        model.addAttribute("mList", membersList);
+        List<MemberResponseDto> dtoList = service.memberAll();
+        model.addAttribute("mList", dtoList);
         return "review/index";
     }
+
+    @PostMapping("/search")
+    public String find(String id, Model model){
+        Member member = service.memberOne(id);
+        model.addAttribute("m", member);
+        return "review/list";
+    }
+
 
     @GetMapping("/join")
     public String join(){
@@ -48,5 +52,12 @@ public class MainController {
         
         model.addAttribute("message", message);
         return "review/login";
+    }
+
+    @GetMapping("/delete")
+    public String delete(String id){
+        System.out.println("id = " + id);
+        service.remove(id);
+        return "redirect:/main";
     }
 }

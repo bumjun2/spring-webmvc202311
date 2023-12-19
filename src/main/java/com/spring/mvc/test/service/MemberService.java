@@ -1,22 +1,39 @@
 package com.spring.mvc.test.service;
 
+import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import com.spring.mvc.test.dto.MemberRequestDTO;
+import com.spring.mvc.test.dto.MemberResponseDto;
 import com.spring.mvc.test.entity.Member;
 import com.spring.mvc.test.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository repository;
 
-    public List<Member> memberAll(){
-        return repository.findAll();
+    public List<MemberResponseDto> memberAll(){
+        return repository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(member -> member.getUserName()))
+                .map(MemberResponseDto::new)
+                .collect(Collectors.toList())
+                ;
     }
+
+    public Member memberOne(String id){
+        if (repository.findOne(id) != null) return repository.findOne(id);
+        else return null;
+    }
+
     public boolean newMember(Member member){
         return repository.save(member);
     }
@@ -32,6 +49,9 @@ public class MemberService {
             }
         }
         return "병신";
+    }
 
+    public boolean remove(String id){
+        return repository.delete(id);
     }
 }

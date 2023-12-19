@@ -49,6 +49,50 @@ public class SpringJdbcRepository {
     // 단일 조회
     public Person findOne(String id){
         String sql = "SELECT * FROM person WHERE id = ?";
-        return template.queryForObject(sql, (rs, row) -> new Person(rs), id);
+        return template.queryForObject(sql, new RowMapper<Person>() {
+            @Override
+            public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Person(rs);
+            }
+        }, id);
+    }
+
+
+    public void save2(Person p){
+        String sql = "INSERT INTO person " +
+                "(id, person_name, person_age) " +
+                "VALUES (?, ?, ?)"
+                ;
+        template.update(sql, p.getId(), p.getPersonName(), p.getPersonAge());
+    }
+
+    public void remove2(String id){
+        String sql = "DELETE FROM person " +
+                "WHERE id = ?"
+                ;
+        template.update(sql, id);
+    }
+
+    public void modify2(Person p){
+        String sql = "UPDATE person " +
+                "SET person_name = ?, person_age = ? " +
+                "WHERE id = ?"
+                ;
+        template.update(sql, p.getPersonName(), p.getPersonAge(), p.getId());
+    }
+
+    public List<Person> findAll2(){
+        String sql = "SELECT * FROM person";
+        return template.query(sql, (rs, rowNum) -> new Person(rs));
+    }
+
+    public Person findOne2(String id){
+        String sql = "SELECT * FROM person WHERE id = ?";
+        return  template.queryForObject(sql, new RowMapper<Person>() {
+            @Override
+            public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Person(rs);
+            }
+        }, id);
     }
 }

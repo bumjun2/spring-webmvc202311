@@ -7,6 +7,7 @@
     <title>Web study</title>
 </head>
 <body>
-    <h1>안녕하세요~~~~~</h1>
+    ${m.id}
+    ${m.userName}
 </body>
 </html>

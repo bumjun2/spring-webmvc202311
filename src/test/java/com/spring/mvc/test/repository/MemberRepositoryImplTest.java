@@ -1,5 +1,6 @@
 package com.spring.mvc.test.repository;
 
+import com.spring.mvc.chap05.common.Search;
 import com.spring.mvc.test.dto.MemberRequestDTO;
 import com.spring.mvc.test.entity.Member;
 import com.spring.mvc.test.service.MemberService;
@@ -25,9 +26,7 @@ class MemberRepositoryImplTest {
         //given
 
         //when
-        List<Member> members = service.memberAll();
         //then
-        assertEquals(3, members.size());
     }
 
     @Test

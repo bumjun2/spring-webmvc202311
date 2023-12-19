@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.repository;
 
 import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.common.Search;
 import com.spring.mvc.chap05.entity.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class BoardMapperTest {
         //given
         for (int i = 1; i < 300 ; i++) {
             Board  b = Board.builder()
-                    .shortContent("테스트용 내용" + i)
+                    .content("테스트용 내용" + i)
                     .title("테스트용 제목" + i)
                     .build();
             mapper.save(b);
@@ -38,11 +39,11 @@ class BoardMapperTest {
 
     @Test
     @DisplayName("게시물을 전체조회하면 300개의 게시물이 조회해야 한다.")
-    void findAllTest(Page page) {
+    void findAllTest() {
         //given
 
         //when
-        List<Board> boardList = mapper.findAll(page);
+        List<Board> boardList = mapper.findAll(new Search());
         //then
         assertTrue(boardList.size() == 299);
     }
@@ -67,7 +68,7 @@ class BoardMapperTest {
         //given
         int boardNo = 29;
         //when
-        boolean b = mapper.delete(boardNo);
+        boolean b = mapper.deleteByNo(boardNo);
         Board board = mapper.findOne(boardNo);
         //then
         assertTrue(b);

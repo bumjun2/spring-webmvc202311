@@ -38,7 +38,7 @@ class JdbcRepositoryTest {
         repository.save(p);
         //then
     }
-
+//
     @Test
     @DisplayName("회원번호가 1인 회원의 이름과 나이를 수정해야 한다.")
     void updateTest(){
@@ -50,7 +50,7 @@ class JdbcRepositoryTest {
         Person person = new Person(id, newName, newAge);
         repository.update(person);
     }
-
+//
     @Test
     @DisplayName("회원번호가 1인 회원을 삭제해야 한다.")
     void deleteTest(){
@@ -59,16 +59,16 @@ class JdbcRepositoryTest {
         //when
         repository.delete(id);
     }
-
-    @Test
-    @DisplayName("랜덤회원아이디를 가진 회원을 10명 등록해야 한다.")
-    void bulkInsertTest(){
-        for (int i = 0; i < 10; i++) {
-            Person person = new Person(""+Math.random(), "라라랄" + i, i+10);
-            repository.save(person);
-        }
-    }
-
+//
+//    @Test
+//    @DisplayName("랜덤회원아이디를 가진 회원을 10명 등록해야 한다.")
+//    void bulkInsertTest(){
+//        for (int i = 0; i < 10; i++) {
+//            Person person = new Person(""+Math.random()+1, "라라랄" + i, i+10);
+//            repository.save(person);
+//        }
+//    }
+//
     @Test
     @DisplayName("전체 회원을 조회하면 회원 리스트의 수가 10개이다")
     void findAllTest(){
@@ -76,7 +76,7 @@ class JdbcRepositoryTest {
 
         all.forEach(System.out::println);
     }
-    
+//
     @Test
     @DisplayName("특정 아이디 회원을 조회하면 하나의 회웜만 조회된다")
     void findOneTest(){

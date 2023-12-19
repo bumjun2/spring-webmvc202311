@@ -3,6 +3,7 @@ package com.spring.mvc.chap04.service;
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreResponseDTO;
+import com.spring.mvc.chap04.entity.Grade;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreMapper;
 import com.spring.mvc.chap04.repository.ScoreRepository;
@@ -64,9 +65,9 @@ public class ScoreService {
 
     //수정 완료 중간처리
     public void updateScore(int kor, int eng, int math, int stuNum){
-        repository.updateScore(kor, eng, math, stuNum);
+
         Score score = repository.findOne(stuNum);
         score.changeScore(kor, eng, math);
-        System.out.println(score.getTotal());
+        repository.updateScore(kor, eng, math, score.getGrade(), stuNum);
     }
 }

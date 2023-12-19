@@ -14,5 +14,5 @@ public interface MemberRepository {
     // 회원 등록
     boolean save(Member member);
     // 이름 수정
-    boolean updateUserName(String id);
+    void updateUserName(Member member);
 }
