@@ -29,9 +29,7 @@ public class MemberRepositoryImpl implements MemberRepository{
 
     @Override
     public List<Member> findAll() {
-        return new ArrayList<>(map.values())
-                .stream()
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override

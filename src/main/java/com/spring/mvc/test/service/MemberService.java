@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,17 +21,17 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository repository;
 
+
     public List<MemberResponseDto> memberAll(){
         return repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(member -> member.getUserName()))
-                .map(MemberResponseDto::new)
-                .collect(Collectors.toList())
-                ;
+                .map(member -> new MemberResponseDto(member))
+                .collect(Collectors.toList());
     }
 
     public Member memberOne(String id){
-        if (repository.findOne(id) != null) return repository.findOne(id);
+        Member member = repository.findOne(id);
+        if (member != null) return member;
         else return null;
     }
 

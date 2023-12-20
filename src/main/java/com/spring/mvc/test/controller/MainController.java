@@ -18,19 +18,13 @@ public class MainController {
     private final MemberService service;
 
     @GetMapping("")
-    public String main(Model model) {
+    public String main(@RequestParam(defaultValue = "0.33924027819951474") String id, Model model) {
         List<MemberResponseDto> dtoList = service.memberAll();
         model.addAttribute("mList", dtoList);
-        return "review/index";
-    }
-
-    @PostMapping("/search")
-    public String find(String id, Model model){
         Member member = service.memberOne(id);
         model.addAttribute("m", member);
-        return "review/list";
+        return "review/index";
     }
-
 
     @GetMapping("/join")
     public String join(){

@@ -20,10 +20,11 @@
         <a href="/main/delete?id=${m.id}">x</a>
         <br>
     </c:forEach>
-    <form action="/main/search" method="post">
+
+    <form action="/main" method="get">
         <input type="text" name="id">
         <button type="submit">회원 찾기</button>
     </form>
-
+    ${m.password}
 </body>
 </html>
