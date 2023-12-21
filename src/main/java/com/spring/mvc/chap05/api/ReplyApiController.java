@@ -2,12 +2,14 @@ package com.spring.mvc.chap05.api;
 
 
 import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -75,4 +77,66 @@ public class ReplyApiController {
                     .body(e.getMessage());
         }
     }
+
+    //댓글 삭제 요청 처리
+    @DeleteMapping("/{replyNo}")
+    public ResponseEntity<?>  remove(
+            @PathVariable Long replyNo
+    ){
+      if(replyNo == null){
+          return ResponseEntity
+                  .badRequest()
+                  .body("댓글 번호를 보내주세요!");
+      }
+
+      log.info("/api/v1/replies/{} : DELETE", replyNo);
+
+      try {
+          ReplyListResponseDTO delete = replyService.delete(replyNo);
+          return ResponseEntity
+                  .ok()
+                  .body(delete)
+                  ;
+      }catch (Exception e){
+          return ResponseEntity
+                  .internalServerError()
+                  .body(e.getMessage())
+                  ;
+      }
+    }
+
+    //댓글 수정 요청 처리
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<?> update(
+            @Validated
+            @RequestBody
+            ReplyModifyRequestDTO dto
+            , BindingResult result
+    ) {
+
+        if(result.hasErrors()){
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.toString())
+                    ;
+        }
+
+        log.info("/api/v1/replies PUT/PATCH {}");
+        log.debug("parameter : {}", dto);
+
+        try{
+            ReplyListResponseDTO modify = replyService.modify(dto);
+            return ResponseEntity
+                    .ok()
+                    .body(modify)
+                    ;
+        }catch (Exception e){
+            log.warn("internal server error! caused by : {}", e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage())
+                    ;
+        }
+    }
+
 }
