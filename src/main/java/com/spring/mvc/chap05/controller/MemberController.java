@@ -5,6 +5,7 @@ import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SinUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResults;
 import com.spring.mvc.chap05.service.MemberService;
+import com.spring.mvc.util.LoginUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpResponse;
 
 @Controller
 @RequestMapping("/members")
@@ -86,7 +88,7 @@ public class MemberController {
         log.info("members/sign-in POST");
         log.debug("{}", dto);
 
-        LoginResults result = service.authenticate(dto);
+        LoginResults result = service.authenticate(dto, request.getSession(), response);
         log.debug("login result : {}", result);
 
         ra.addFlashAttribute("msg", result);
@@ -106,15 +108,26 @@ public class MemberController {
     // 로그아웃 요청 처리
     @GetMapping("/sign-out")
     public String signOut(
-            HttpServletRequest request
+            HttpServletRequest request,
+            HttpServletResponse response
     ){
         HttpSession session = request.getSession();
-        // 세션에서 로그인 정보 기록 삭제
-        session.removeAttribute("login");
-        // 세션을 초기화 (RESET)
-        session.invalidate();
 
-        return "redirect:/";
+        if(LoginUtils.isLogin(session)){
+
+            // 자동 로그인 상태인지도 확인
+            if (LoginUtils.isAutoLogin(request)){
+                // 쿠키를 삭제해주고 디비 데이터도 원래대로 돌려 놓는다.
+                service.autoLoginClear(request, response);
+            }
+            // 세션에서 로그인 정보 기록 삭제
+            session.removeAttribute(LoginUtils.LOGIN_KEY);
+            // 세션을 초기화 (RESET)
+            session.invalidate();
+
+            return "redirect:/";
+        }
+        return "redirect:/members/sign-in";
     }
 
 

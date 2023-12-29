@@ -23,6 +23,7 @@ public class ReplyPostRequestDTO {
     private String author;
     @NotNull
     private Long bno;
+
     public Reply toEntity(){
         return Reply.builder()
                 .replyText(this.text)

@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class ReplyApiController {
     @PostMapping
     public ResponseEntity<?> create(
             @Validated // 검증 하겠다
-            @RequestBody ReplyPostRequestDTO dto
+            @RequestBody ReplyPostRequestDTO dto,
+            HttpSession session
             , BindingResult result // 검증 결과 메세지를 가진 객체
     ){
 
@@ -66,7 +68,7 @@ public class ReplyApiController {
         log.debug("request : parameter : {}", dto);
 
         try {
-            ReplyListResponseDTO responseDTO = replyService.register(dto);
+            ReplyListResponseDTO responseDTO = replyService.register(dto, session);
             return ResponseEntity
                     .ok()
                     .body(responseDTO);

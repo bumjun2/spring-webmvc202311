@@ -29,4 +29,6 @@ public class Member {
     private String email;
     private Auth auth;
     private LocalDateTime redDate;
+    private String sessionId;
+    private LocalDateTime limitTime;
 }

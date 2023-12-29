@@ -39,7 +39,7 @@ class MemberServiceTest {
                 .password("12!")
                 .build();
         //when
-        LoginResults result = service.authenticate(dto);
+        LoginResults result = service.authenticate(dto, null, null);
         //then
         assertEquals(LoginResults.NO_ACC, result);
     }
