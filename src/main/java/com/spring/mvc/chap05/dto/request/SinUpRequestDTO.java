@@ -4,6 +4,7 @@ package com.spring.mvc.chap05.dto.request;
 import com.spring.mvc.chap05.entity.Member;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,14 +27,17 @@ public class SinUpRequestDTO {
     @NotBlank
     @Email
     private String email;
+    //프로필 사진 파일
+    private MultipartFile profileImage;
 
 
-    public Member toEntity(PasswordEncoder encoder) {
+    public Member toEntity(PasswordEncoder encoder, String savaPath) {
         return Member.builder()
                 .account(this.account)
                 .password(encoder.encode(password))
                 .email(this.email)
                 .name(this.name)
+                .profileImage(savaPath)
                 .build()
                 ;
     }

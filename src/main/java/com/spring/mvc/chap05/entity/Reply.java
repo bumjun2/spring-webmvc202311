@@ -33,4 +33,6 @@ public class Reply {
     private int boardNo;
     @Setter
     private String account;
+    @Setter
+    private String profileImage;
 }

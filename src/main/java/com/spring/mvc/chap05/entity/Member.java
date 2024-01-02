@@ -13,6 +13,7 @@ package com.spring.mvc.chap05.entity;
  */
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -31,4 +32,5 @@ public class Member {
     private LocalDateTime redDate;
     private String sessionId;
     private LocalDateTime limitTime;
+    private String profileImage;
 }

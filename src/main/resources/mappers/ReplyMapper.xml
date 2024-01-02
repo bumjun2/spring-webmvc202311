@@ -23,15 +23,17 @@
     <select id="findOne" resultType="reply">
         SELECT
             reply_no, reply_text, reply_writer
-            ,reply_date, board_no, account
+            ,reply_date, board_no
         FROM tbl_reply
         WHERE reply_no = #{replyNo}
     </select>
     <select id="findAll" resultType="reply">
         SELECT
             reply_no, reply_text, reply_writer
-            ,reply_date, board_no, account
-        FROM tbl_reply
+            ,reply_date, board_no, a.account, b.profile_image
+        FROM tbl_reply as a
+        JOIN tbl_member as b
+        ON a.account = b.account
         WHERE board_no = #{bn}
         ORDER BY reply_no
         LIMIT #{p.pageStart}, #{p.amount}
