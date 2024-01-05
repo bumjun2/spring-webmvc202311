@@ -29,6 +29,7 @@ public class SinUpRequestDTO {
     private String email;
     //프로필 사진 파일
     private MultipartFile profileImage;
+    private Member.LoginMethod loginMethod;
 
 
     public Member toEntity(PasswordEncoder encoder, String savaPath) {
@@ -38,6 +39,7 @@ public class SinUpRequestDTO {
                 .email(this.email)
                 .name(this.name)
                 .profileImage(savaPath)
+                .loginMethod(this.loginMethod)
                 .build()
                 ;
     }

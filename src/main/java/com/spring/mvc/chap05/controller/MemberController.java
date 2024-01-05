@@ -3,6 +3,7 @@ package com.spring.mvc.chap05.controller;
 
 import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SinUpRequestDTO;
+import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.service.LoginResults;
 import com.spring.mvc.chap05.service.MemberService;
 import com.spring.mvc.util.LoginUtils;
@@ -61,6 +62,8 @@ public class MemberController {
 
         String savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
         log.debug("{}", savePath);
+
+        dto.setLoginMethod(Member.LoginMethod.COMMON);
 
         boolean flag = service.join(dto, savePath);
         return flag ? "redirect:/board/list" : "redirect:/members/sign-up";
